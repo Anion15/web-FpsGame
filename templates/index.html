@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D 슈팅 게임</title>
+    <style>
+        body { margin: 0; overflow: hidden; font-family: Arial, sans-serif; }
+        canvas { display: block; }
+        
+        #login-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0,0,0,0.8);
+            color: white;
+        }
+        
+        #login-screen h1 {
+            font-size: 2.5em;
+            margin-bottom: 1em;
+        }
+        
+        #login-screen input {
+            padding: 10px;
+            font-size: 1em;
+            width: 300px;
+            margin-bottom: 1em;
+        }
+        
+        #login-screen button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        
+        #game-ui {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            display: none;
+        }
+        
+        .health-bar {
+            width: 200px;
+            height: 20px;
+            background: #333;
+            margin-bottom: 10px;
+        }
+        
+        #health-value {
+            height: 100%;
+            background: #f00;
+            width: 100%;
+        }
+        
+        .game-stats {
+            color: white;
+            font-size: 1.2em;
+            text-shadow: 1px 1px 2px #000;
+        }
+        
+        #crosshair {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+        
+        #players-list {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        #game-over {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            display: none;
+        }
+        
+        #game-over h2 {
+            font-size: 2em;
+            margin-bottom: 0.5em;
+        }
+        
+        #game-over button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 1em;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .nameplate {
+            background: rgba(0,0,0,0.5);
+            color: white;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 12px;
+            pointer-events: none;
+        }
+        
+        #loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            font-size: 2em;
+            display: none;
+        }
+        
+        #loading:after {
+            content: '...';
+            animation: dots 1s steps(5, end) infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60% { content: '...'; }
+            80%, 100% { content: ''; }
+        }
+        
+        #device-warning {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0,0,0,0.9);
+            color: white;
+            z-index: 1000;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        #device-warning h2 {
+            font-size: 2em;
+            margin-bottom: 1em;
+            color: #ff4444;
+        }
+        
+        #device-warning p {
+            font-size: 1.2em;
+            margin-bottom: 1em;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div id="device-warning" style="display: none;">
+        <h2>⚠️ 모바일 기기 감지됨</h2>
+        <p>이 게임은 컴퓨터에서 플레이하도록 설계되었습니다.<br>
+        모바일 기기에서는 최적의 게임 경험을 제공할 수 없습니다.<br>
+        컴퓨터로 접속해주시기 바랍니다.</p>
+    </div>
+    
+    <canvas id="game-canvas"></canvas>
+    
+    <div id="login-screen">
+        <h1>3D 슈팅 게임</h1>
+        <input type="text" id="username" placeholder="사용자 이름 입력">
+        <button id="start-button">시작하기</button>
+    </div>
+    
+    <div id="game-ui">
+        <div class="health-bar">
+            <div id="health-value"></div>
+        </div>
+        <div class="game-stats">
+            탄약: <span id="ammo-count">30</span> | 
+            점수: <span id="score-value">0</span>
+        </div>
+    </div>
+    
+    <div id="crosshair">+</div>
+    
+    <div id="players-list"></div>
+    
+    <div id="game-over" class="hidden">
+        <h2>게임 종료</h2>
+        <p>최종 점수: <span id="final-score-value">0</span></p>
+        <button id="restart-button">다시 시작</button>
+    </div>
+    
+    <div id="loading">로딩 중</div>
+    
+    <!-- 디버그 헬퍼 스크립트 -->
+    <script>
+    // 디버그 함수 추가
+    function debug(message) {
+        // 콘솔에만 출력
+        console.log(message);
+    }
+    </script>
+
+    <!-- 필수 라이브러리 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/renderers/CSS2DRenderer.js"></script>
+    
+    <!-- 후처리 효과 라이브러리 -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+    
+    <!-- 추가 시각 효과 라이브러리 -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/OutlinePass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/SSAOPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/SSAARenderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/FXAAShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/objects/Sky.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/objects/Water.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/DRACOLoader.js"></script>
+    
+    <!-- Three.js 내장 SimplexNoise -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/math/SimplexNoise.js"></script>
+    
+    <!-- 게임 스크립트 -->
+    <script>
+        // 기기 감지 함수
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+        
+        // 페이지 로드 시 기기 확인
+        window.addEventListener('load', function() {
+            if (isMobileDevice()) {
+                document.getElementById('device-warning').style.display = 'flex';
+                document.getElementById('login-screen').style.display = 'none';
+            }
+        });
+    </script>
+    <script src="/static/js/network.js"></script>
+    <script src="/static/js/player.js"></script>
+    <script src="/static/js/controls.js"></script>
+    <script src="/static/js/weapon.js"></script>
+    <script src="/static/js/world.js"></script>
+    <script src="/static/js/game.js"></script>
+</body>
+</html>
