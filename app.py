@@ -13,6 +13,7 @@ import threading
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'fps-game-secret-key'
+# 위에 시크릿 키 님들이 바꿔서 쓰셈
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 # 게임 상태 (플레이어, 맵 객체 등)
