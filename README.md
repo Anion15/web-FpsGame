@@ -8,6 +8,9 @@ Three.js 기반으로 구축되었으며, 마우스 조작과 키보드를 통�
 
 > 게임 플레이 영상  
 <img src="https://github.com/user-attachments/assets/c04117fc-263b-4b97-ab7b-e1ace4e4ef20" width="600"/>
+&nbsp;
+<a href="https://drive.google.com/file/d/1-x-JBzCMnQnzAB7pHqEEML04y3lQWQVD/view?usp=sharing" target="_blank">▶️ 플레이 영상 전체 보기</a>
+
 
 
 
