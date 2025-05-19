@@ -1,16 +1,70 @@
-from flask import Flask, render_template, send_from_directory, request, jsonify
-from flask_socketio import SocketIO, emit
-from world_data import WorldData
-
-import os
-import json
-import uuid
-import time
-import math
-import random
-from collections import deque
-import threading
-
+try:
+    from flask import Flask, render_template, send_from_directory, request, jsonify
+except ModuleNotFoundError:
+    print("모듈을 찾을 수 없습니다. 'flask'가 설치되어 있는지 확인하세요.")
+    while True:
+        pass
+try:
+    from flask_socketio import SocketIO, emit
+except ModuleNotFoundError:
+    print("모듈을 찾을 수 없습니다. 'flask_socketio'가 설치되어 있는지 확인하세요.")
+    while True:
+        pass
+try:
+    from world_data import WorldData
+except ModuleNotFoundError:
+    print("찾을 수 없습니다. 'world_data'가 있는지 확인하세요.")
+    while True:
+        pass
+try:
+    import os
+except ModuleNotFoundError:
+    print("모듈을 찾을 수 없습니다. 'os'가 설치되어 있는지 확인하세요.")
+    while True:
+        pass
+try:
+    import json
+except ModuleNotFoundError:
+    print("모듈을 찾을 수 없습니다. 'json'가 설치되어 있는지 확인하세요.")
+    while True:
+        pass
+try:
+    import uuid
+except ModuleNotFoundError:
+    print("모듈을 찾을 수 없습니다. 'uuid'가 설치되어 있는지 확인하세요.")
+    while True:
+        pass
+try:
+    import time
+except ModuleNotFoundError:
+    print("모듈을 찾을 수 없습니다. 'time'가 설치되어 있는지 확인하세요.")
+    while True:
+        pass
+try:
+    import math
+except ModuleNotFoundError:
+    print("모듈을 찾을 수 없습니다. 'math'가 설치되어 있는지 확인하세요.")
+    while True:
+        pass
+try:
+    import random
+except ModuleNotFoundError:
+    print("모듈을 찾을 수 없습니다. 'random'가 설치되어 있는지 확인하세요.")
+    while True:
+        pass
+try:
+    from collections import deque
+except ModuleNotFoundError:
+    print("모듈을 찾을 수 없습니다. 'collections'가 설치되어 있는지 확인하세요.")
+    while True:
+        pass
+try:
+    import threading
+except ModuleNotFoundError:
+    print("모듈을 찾을 수 없습니다. 'threading'가 설치되어 있는지 확인하세요.")
+    while True:
+        pass
+        
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'fps-game-secret-key'
 # 위에 시크릿 키 님들이 바꿔서 쓰셈
