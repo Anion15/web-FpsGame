@@ -1,4 +1,4 @@
-# 🕹️ 3D FPS Web Game
+#  3D FPS Web Game
 
 웹 브라우저에서 실행되는 실시간 3D 1인칭 슈팅(FPS) 게임입니다.  
 Three.js 기반으로 구축되었으며, 마우스 조작과 키보드를 통해 몰입감 있는 슈팅 게임을 제공합니다.
@@ -6,7 +6,7 @@ Three.js 기반으로 구축되었으며, 마우스 조작과 키보드를 통�
 > 스크린샷  
 <img src="https://github.com/user-attachments/assets/54de7e81-869a-43aa-ba1c-abba5104e24e" width="600"/>
 
-> <img src="https://github.com/user-attachments/assets/c04117fc-263b-4b97-ab7b-e1ace4e4ef20" width="600"/>&nbsp;</br><a href="https://drive.google.com/file/d/1-x-JBzCMnQnzAB7pHqEEML04y3lQWQVD/view?usp=sharing" target="_blank">▶️ 플레이 영상 전체 보기</a>
+> <img src="https://github.com/user-attachments/assets/c04117fc-263b-4b97-ab7b-e1ace4e4ef20" width="600"/>&nbsp;</br><a href="https://drive.google.com/file/d/1-x-JBzCMnQnzAB7pHqEEML04y3lQWQVD/view?usp=sharing" target="_blank"> 플레이 영상 전체 보기</a>
 
 
 
@@ -14,9 +14,9 @@ Three.js 기반으로 구축되었으며, 마우스 조작과 키보드를 통�
 ---
 &nbsp;
 &nbsp;
-## 🌍 데모
+## 데모
 
-> ⚠️ 이 게임은 **PC에서 실행**할 때 최적화되어 있습니다.  
+>  이 게임은 **PC에서 실행**할 때 최적화되어 있습니다.  
 > 모바일 환경에서는 실행이 제한됩니다.
 &nbsp;
 &nbsp;
@@ -42,7 +42,7 @@ Three.js 기반으로 구축되었으며, 마우스 조작과 키보드를 통�
 ---
 &nbsp;
 &nbsp;
-## 🎮 조작 방법
+##  조작 방법
 
 | 조작키/버튼        | 기능 |
 |--------------------|------|
@@ -59,7 +59,7 @@ Three.js 기반으로 구축되었으며, 마우스 조작과 키보드를 통�
 ---
 &nbsp;
 &nbsp;
-## 📁 프로젝트 구조
+##  프로젝트 구조
 
 ```plaintext
 ├── index.html              # 메인 HTML + UI 구성
